@@ -154,6 +154,14 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <th>Painel PX</th>
             <th>Painel CCP</th>
             <th>Gravações</th>
+            <th>Macros<th>
+            <th>Logs<th>
+            <th>Cameras<th>
+            <th>Restricoes<th>
+            <th>Alarmes<th>
+            <th>Posicionamento<th>
+            <th>HBHW<th>
+            <th>PVS<th>
             <th>Ações</th>
         </tr>
         </thead>
@@ -178,6 +186,38 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </td>
                     <td>
                         <input class="checkbox" type="checkbox" name="gravacoes"
+                               value="sim" <?= $usuario['gravacoes'] === 'sim' ? 'checked' : '' ?>>
+                    </td>
+                    <td>
+                        <input class="checkbox" type="checkbox" name=""
+                               value="sim" <?= $usuario['px'] === 'sim' ? 'checked' : '' ?>>
+                    </td>
+                    <td>
+                        <input class="checkbox" type="checkbox" name=""
+                               value="sim" <?= $usuario['ccp'] === 'sim' ? 'checked' : '' ?>>
+                    </td>
+                    <td>
+                        <input class="checkbox" type="checkbox" name=""
+                               value="sim" <?= $usuario['gravacoes'] === 'sim' ? 'checked' : '' ?>>
+                    </td>
+                    <td>
+                        <input class="checkbox" type="checkbox" name=""
+                               value="sim" <?= $usuario['px'] === 'sim' ? 'checked' : '' ?>>
+                    </td>
+                    <td>
+                        <input class="checkbox" type="checkbox" name=""
+                               value="sim" <?= $usuario['ccp'] === 'sim' ? 'checked' : '' ?>>
+                    </td>
+                    <td>
+                        <input class="checkbox" type="checkbox" name=""
+                               value="sim" <?= $usuario['gravacoes'] === 'sim' ? 'checked' : '' ?>>
+                    </td>
+                    <td>
+                        <input class="checkbox" type="checkbox" name=""
+                               value="sim" <?= $usuario['ccp'] === 'sim' ? 'checked' : '' ?>>
+                    </td>
+                    <td>
+                        <input class="checkbox" type="checkbox" name=""
                                value="sim" <?= $usuario['gravacoes'] === 'sim' ? 'checked' : '' ?>>
                     </td>
                     <td>
