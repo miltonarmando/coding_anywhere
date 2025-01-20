@@ -1,115 +1,34 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    margin: 0;
-    padding: 0;
-}
+<?php
+session_start();
+require_once 'database.php';
 
-.container {
-    max-width: 1200px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow-x: auto; /* Permite rolagem horizontal */
-}
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $usuario_id = $_POST['usuario_id'];
 
-h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 30px;
-}
+    // Determinar valores para cada permissão
+    $cco = isset($_POST['cco']) ? 'sim' : 'nao';
+    $px = isset($_POST['px']) ? 'sim' : 'nao';
+    $ccp = isset($_POST['ccp']) ? 'sim' : 'nao';
+    $gravacoes = isset($_POST['gravacoes']) ? 'sim' : 'nao';
 
-.search-form {
-    text-align: center;
-    margin-bottom: 30px;
-}
+    // Atualizar permissões no banco de dados
+    $query = "UPDATE usuarios 
+              SET cco = :cco, 
+                  px = :px, 
+                  ccp = :ccp, 
+                  gravacoes = :gravacoes 
+              WHERE usuario_id = :usuario_id";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute([
+        ':cco' => $cco,
+        ':px' => $px,
+        ':ccp' => $ccp,
+        ':gravacoes' => $gravacoes,
+        ':usuario_id' => $usuario_id
+    ]);
 
-.search-form input {
-    padding: 8px;
-    font-size: 16px;
-    width: 300px;
-    margin-right: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    echo "Permissões atualizadas com sucesso.";
+    header('Location: gerenciar_permissoes.php');
+    exit;
 }
-
-.search-form button {
-    padding: 8px 16px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.search-form button:hover {
-    background-color: #45a049;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 30px;
-    table-layout: fixed; /* Garante a rolagem e alinhamento correto */
-}
-
-th, td {
-    border: 1px solid #ddd;
-    padding: 10px 15px;
-    text-align: center;
-}
-
-th {
-    background-color: #4CAF50;
-    color: white;
-    position: sticky;
-    top: 0;
-    z-index: 2; /* Fixa a linha de cabeçalho */
-}
-
-td {
-    background-color: #f2f2f2;
-}
-
-td, th {
-    min-width: 120px; /* Garante que as células tenham uma largura mínima */
-}
-
-td:nth-child(1), td:nth-child(2), th:nth-child(1), th:nth-child(2) {
-    position: sticky;
-    left: 0;
-    background-color: #fff; /* Cor de fundo para a coluna fixa */
-    z-index: 1; /* Garante que as primeiras colunas fiquem acima das outras ao rolar */
-}
-
-.checkbox {
-    margin: 0;
-}
-
-.save-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.save-button:hover {
-    background-color: #45a049;
-}
-
-.form-row {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.form-title {
-    font-size: 18px;
-    color: #333;
-    margin: 10px 0;
-}
+?>
