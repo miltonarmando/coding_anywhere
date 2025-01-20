@@ -10,13 +10,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $px = isset($_POST['px']) ? 'sim' : 'nao';
     $ccp = isset($_POST['ccp']) ? 'sim' : 'nao';
     $gravacoes = isset($_POST['gravacoes']) ? 'sim' : 'nao';
+    $macros = isset($_POST['macros']) ? 'sim' : 'nao';
+    $logs = isset($_POST['logs']) ? 'sim' : 'nao';
+    $cameras = isset($_POST['cameras']) ? 'sim' : 'nao';
+    $restricoes = isset($_POST['restricoes']) ? 'sim' : 'nao';
+    $alarmes = isset($_POST['alarmes']) ? 'sim' : 'nao';
+    $posicionamento = isset($_POST['posicionamento']) ? 'sim' : 'nao';
+    $hb_hw = isset($_POST['hb_hw']) ? 'sim' : 'nao';
+    $pvs = isset($_POST['pvs']) ? 'sim' : 'nao';
 
     // Atualizar permissões no banco de dados
     $query = "UPDATE usuarios 
               SET cco = :cco, 
                   px = :px, 
                   ccp = :ccp, 
-                  gravacoes = :gravacoes 
+                  gravacoes = :gravacoes,
+                  macros = :macros,
+                  logs = :logs,
+                  cameras = :cameras,
+                  restricoes = :restricoes,
+                  alarmes = :alarmes,
+                  posicionamento = :posicionamento,
+                  hb_hw = :hb_hw,
+                  pvs = :pvs
               WHERE usuario_id = :usuario_id";
     $stmt = $pdo->prepare($query);
     $stmt->execute([
@@ -24,6 +40,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ':px' => $px,
         ':ccp' => $ccp,
         ':gravacoes' => $gravacoes,
+        ':macros' => $macros,
+        ':logs' => $logs,
+        ':cameras' => $cameras,
+        ':restricoes' => $restricoes,
+        ':alarmes' => $alarmes,
+        ':posicionamento' => $posicionamento,
+        ':hb_hw' => $hb_hw,
+        ':pvs' => $pvs,
         ':usuario_id' => $usuario_id
     ]);
 
