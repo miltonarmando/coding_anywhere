@@ -101,10 +101,11 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <thead>
         <tr>
             <th>Usuário</th>
-            <th>Página 1</th>
-            <th>Página 2</th>
-            <th>Diretório 1</th>
-            <th>Diretório 2</th>
+            <th>Nome/Sobrenome</th>
+            <th>Painel CCO</th>
+            <th>Painel PX</th>
+            <th>Painel CCP</th>
+            <th>Gravações</th>
             <th>Ações</th>
         </tr>
         </thead>
@@ -113,22 +114,23 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <tr>
                 <form method="POST" action="salvar_permissoes.php">
                     <input type="hidden" name="usuario_id" value="<?= $usuario['usuario_id'] ?>">
-                    <td><?= htmlspecialchars($usuario['nome']) ?></td>
+                    <td><?= htmlspecialchars($usuario['usuario']) ?></td>
+                    <td><?= htmlspecialchars($usuario['sobrenome']) ?></td>
                     <td>
-                        <input class="checkbox" type="checkbox" name="pagina1"
-                               value="sim" <?= $usuario['pagina1'] === 'sim' ? 'checked' : '' ?>>
+                        <input class="checkbox" type="checkbox" name="cco"
+                               value="sim" <?= $usuario['cco'] === 'sim' ? 'checked' : '' ?>>
                     </td>
                     <td>
-                        <input class="checkbox" type="checkbox" name="pagina2"
-                               value="sim" <?= $usuario['pagina2'] === 'sim' ? 'checked' : '' ?>>
+                        <input class="checkbox" type="checkbox" name="px"
+                               value="sim" <?= $usuario['px'] === 'sim' ? 'checked' : '' ?>>
                     </td>
                     <td>
-                        <input class="checkbox" type="checkbox" name="diretorio1"
-                               value="sim" <?= $usuario['diretorio1'] === 'sim' ? 'checked' : '' ?>>
+                        <input class="checkbox" type="checkbox" name="ccp"
+                               value="sim" <?= $usuario['ccp'] === 'sim' ? 'checked' : '' ?>>
                     </td>
                     <td>
-                        <input class="checkbox" type="checkbox" name="diretorio2"
-                               value="sim" <?= $usuario['diretorio2'] === 'sim' ? 'checked' : '' ?>>
+                        <input class="checkbox" type="checkbox" name="gravacoes"
+                               value="sim" <?= $usuario['gravacoes'] === 'sim' ? 'checked' : '' ?>>
                     </td>
                     <td>
                         <button type="submit" class="save-button">Salvar</button>
