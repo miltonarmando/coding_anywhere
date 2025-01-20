@@ -1,0 +1,33 @@
+<?php
+session_start();
+require_once 'database.php';
+
+// Verificar se o usuário está logado
+if (!isset($_SESSION['usuario_id'])) {
+    echo "Você precisa fazer login.";
+    exit;
+}
+
+// Obter o caminho atual
+$caminho_atual = $_SERVER['REQUEST_URI'];
+
+// Obter permissões do usuário
+$usuario_id = $_SESSION['usuario_id'];
+$query = "SELECT * FROM usuarios WHERE usuario_id = :usuario_id";
+$stmt = $pdo->prepare($query);
+$stmt->execute([':usuario_id' => $usuario_id]);
+$usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Verificar permissões para diretórios
+if (strpos($caminho_atual, '/diretorio1/') === 0 && $usuario['diretorio1'] !== 'sim') {
+    echo "Acesso negado ao Diretório 1.";
+    exit;
+}
+
+if (strpos($caminho_atual, '/diretorio2/') === 0 && $usuario['diretorio2'] !== 'sim') {
+    echo "Acesso negado ao Diretório 2.";
+    exit;
+}
+
+// Conteúdo da página é exibido se o acesso for permitido
+?>
