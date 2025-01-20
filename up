@@ -8,22 +8,9 @@ if (!isset($_SESSION['usuario_id'])) {
     exit;
 }
 
-// Verificar se uma pesquisa foi feita
-$searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
-
-// Consultar usuários com base no termo de pesquisa
+// Obter todos os usuários
 $query = "SELECT * FROM usuarios";
-if ($searchTerm !== '') {
-    $query .= " WHERE nome LIKE :searchTerm";
-}
-
-$stmt = $pdo->prepare($query);
-if ($searchTerm !== '') {
-    $stmt->execute([':searchTerm' => "%$searchTerm%"]);
-} else {
-    $stmt->execute();
-}
-
+$stmt = $pdo->query($query);
 $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
@@ -54,34 +41,6 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
             text-align: center;
             color: #333;
             margin-bottom: 30px;
-        }
-
-        .search-form {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .search-input {
-            padding: 10px;
-            width: 300px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .search-button {
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-
-        .search-button:hover {
-            background-color: #45a049;
         }
 
         table {
@@ -122,70 +81,63 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
         .save-button:hover {
             background-color: #45a049;
         }
+
+        .form-row {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-title {
+            font-size: 18px;
+            color: #333;
+            margin: 10px 0;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <h1>Gerenciar Permissões de Acesso</h1>
-
-    <!-- Formulário de pesquisa -->
-    <form class="search-form" method="GET" action="">
-        <input 
-            class="search-input" 
-            type="text" 
-            name="search" 
-            placeholder="Pesquisar por usuário" 
-            value="<?= htmlspecialchars($searchTerm) ?>"
-        >
-        <button class="search-button" type="submit">Pesquisar</button>
-    </form>
-
-    <!-- Tabela de permissões -->
     <table>
         <thead>
         <tr>
             <th>Usuário</th>
-            <th>Página 1</th>
-            <th>Página 2</th>
-            <th>Diretório 1</th>
-            <th>Diretório 2</th>
+            <th>Nome/Sobrenome</th>
+            <th>Painel CCO</th>
+            <th>Painel PX</th>
+            <th>Painel CCP</th>
+            <th>Gravações</th>
             <th>Ações</th>
         </tr>
         </thead>
         <tbody>
-        <?php if (count($usuarios) > 0): ?>
-            <?php foreach ($usuarios as $usuario): ?>
-                <tr>
-                    <form method="POST" action="salvar_permissoes.php">
-                        <input type="hidden" name="usuario_id" value="<?= $usuario['usuario_id'] ?>">
-                        <td><?= htmlspecialchars($usuario['nome']) ?></td>
-                        <td>
-                            <input class="checkbox" type="checkbox" name="pagina1"
-                                   value="sim" <?= $usuario['pagina1'] === 'sim' ? 'checked' : '' ?>>
-                        </td>
-                        <td>
-                            <input class="checkbox" type="checkbox" name="pagina2"
-                                   value="sim" <?= $usuario['pagina2'] === 'sim' ? 'checked' : '' ?>>
-                        </td>
-                        <td>
-                            <input class="checkbox" type="checkbox" name="diretorio1"
-                                   value="sim" <?= $usuario['diretorio1'] === 'sim' ? 'checked' : '' ?>>
-                        </td>
-                        <td>
-                            <input class="checkbox" type="checkbox" name="diretorio2"
-                                   value="sim" <?= $usuario['diretorio2'] === 'sim' ? 'checked' : '' ?>>
-                        </td>
-                        <td>
-                            <button type="submit" class="save-button">Salvar</button>
-                        </td>
-                    </form>
-                </tr>
-            <?php endforeach; ?>
-        <?php else: ?>
+        <?php foreach ($usuarios as $usuario): ?>
             <tr>
-                <td colspan="6">Nenhum usuário encontrado.</td>
+                <form method="POST" action="salvar_permissoes.php">
+                    <input type="hidden" name="usuario_id" value="<?= $usuario['usuario_id'] ?>">
+                    <td><?= htmlspecialchars($usuario['usuario']) ?></td>
+                    <td><?= htmlspecialchars($usuario['sobrenome']) ?></td>
+                    <td>
+                        <input class="checkbox" type="checkbox" name="cco"
+                               value="sim" <?= $usuario['cco'] === 'sim' ? 'checked' : '' ?>>
+                    </td>
+                    <td>
+                        <input class="checkbox" type="checkbox" name="px"
+                               value="sim" <?= $usuario['px'] === 'sim' ? 'checked' : '' ?>>
+                    </td>
+                    <td>
+                        <input class="checkbox" type="checkbox" name="ccp"
+                               value="sim" <?= $usuario['ccp'] === 'sim' ? 'checked' : '' ?>>
+                    </td>
+                    <td>
+                        <input class="checkbox" type="checkbox" name="gravacoes"
+                               value="sim" <?= $usuario['gravacoes'] === 'sim' ? 'checked' : '' ?>>
+                    </td>
+                    <td>
+                        <button type="submit" class="save-button">Salvar</button>
+                    </td>
+                </form>
             </tr>
-        <?php endif; ?>
+        <?php endforeach; ?>
         </tbody>
     </table>
 </div>
