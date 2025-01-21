@@ -1,58 +1,92 @@
-<?php
-session_start();
-require_once 'database.php';
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso Não Autorizado</title>
+    <style>
+        /* Reset Básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $usuario_id = $_POST['usuario_id'];
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #ff4b2b, #ff416c);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
 
-    // Determinar valores para cada permissão
-    $cco = isset($_POST['cco']) ? 'sim' : 'nao';
-    $px = isset($_POST['px']) ? 'sim' : 'nao';
-    $ccp = isset($_POST['ccp']) ? 'sim' : 'nao';
-    $gravacoes = isset($_POST['gravacoes']) ? 'sim' : 'nao';
-    $macros = isset($_POST['macros']) ? 'sim' : 'nao';
-    $logs = isset($_POST['logs']) ? 'sim' : 'nao';
-    $cameras = isset($_POST['cameras']) ? 'sim' : 'nao';
-    $restricoes = isset($_POST['restricoes']) ? 'sim' : 'nao';
-    $alarmes = isset($_POST['alarmes']) ? 'sim' : 'nao';
-    $posicionamento = isset($_POST['posicionamento']) ? 'sim' : 'nao';
-    $hb_hw = isset($_POST['hb_hw']) ? 'sim' : 'nao';
-    $pvs = isset($_POST['pvs']) ? 'sim' : 'nao';
+        .container {
+            max-width: 500px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
 
-    // Atualizar permissões no banco de dados
-    $query = "UPDATE usuarios 
-              SET cco = :cco, 
-                  px = :px, 
-                  ccp = :ccp, 
-                  gravacoes = :gravacoes,
-                  macros = :macros,
-                  logs = :logs,
-                  cameras = :cameras,
-                  restricoes = :restricoes,
-                  alarmes = :alarmes,
-                  posicionamento = :posicionamento,
-                  hb_hw = :hb_hw,
-                  pvs = :pvs
-              WHERE usuario_id = :usuario_id";
-    $stmt = $pdo->prepare($query);
-    $stmt->execute([
-        ':cco' => $cco,
-        ':px' => $px,
-        ':ccp' => $ccp,
-        ':gravacoes' => $gravacoes,
-        ':macros' => $macros,
-        ':logs' => $logs,
-        ':cameras' => $cameras,
-        ':restricoes' => $restricoes,
-        ':alarmes' => $alarmes,
-        ':posicionamento' => $posicionamento,
-        ':hb_hw' => $hb_hw,
-        ':pvs' => $pvs,
-        ':usuario_id' => $usuario_id
-    ]);
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
 
-    echo "Permissões atualizadas com sucesso.";
-    header('Location: gerenciar_permissoes.php');
-    exit;
-}
-?>
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #fff;
+            color: #ff416c;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff4b2b;
+            color: #fff;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Acesso Não Autorizado</h1>
+        <p>Você não tem permissão para acessar esta página.</p>
+        <p>Você será redirecionado para a página de login em breve.</p>
+        <div class="button-container">
+            <button onclick="window.location.href='index.html';">Voltar à Página Inicial</button>
+        </div>
+    </div>
+
+    <script>
+        // Redireciona automaticamente para a página de login após 5 segundos
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 5000);
+    </script>
+</body>
+</html>
