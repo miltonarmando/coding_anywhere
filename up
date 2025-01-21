@@ -1,101 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restricted Access</title>
-    <style>
-        /* General styles */
-        body {
-            font-family: 'Arial', sans-serif;
-            background: #f3f4f8;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+<?php 
 
-        .container {
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-            max-width: 400px;
-            width: 100%;
-            text-align: center;
-        }
+session_start();
 
-        h1 {
-            color: #333;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
+if(!isset($_SESSION['usuario']))
+	{
+	  header("Location: ../../Automacao.php");
+	  exit;
+	}
 
-        .message {
-            font-size: 16px;
-            margin-bottom: 20px;
-            color: #555;
-        }
+	include "../../include/contador.php";
+	$ip = $_SERVER['REMOTE_ADDR'];
+	contador(4, $ip);
 
-        .btn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            display: inline-block;
-            margin-top: 20px;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-
-        .btn:hover {
-            background-color: #45a049;
-        }
-
-        .alert {
-            background-color: #ffcc00;
-            color: #fff;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            display: none;
-        }
-
-        .alert.error {
-            background-color: #e74c3c;
-        }
-
-        .alert.success {
-            background-color: #2ecc71;
-        }
-
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Restricted Access</h1>
-        <div class="alert error" id="error-message">You do not have permission to access this resource.</div>
-        <div class="alert success" id="success-message">Access granted!</div>
-        <div class="message">You are trying to access a protected resource. If you believe you should have access, please contact the administrator.</div>
-        <a href="/login.php" class="btn">Go to Login</a>
-    </div>
-
-    <script>
-        // Simulate error or success
-        function showMessage(type, message) {
-            let alert = document.getElementById(type);
-            alert.textContent = message;
-            alert.style.display = 'block';
-        }
-
-        // Example of redirect with error or success
-        setTimeout(() => {
-            showMessage('error', 'You do not have permission to access this resource.');
-        }, 1000);
-    </script>
-</body>
-</html>
+	require_once '../../database.php';
+	
+	///var/www/cln/rerfdqwertyuiop
+	// Obter o caminho atual
+	$caminho_atual = $_SERVER['REQUEST_URI'];
+	
+	// Obter permissões do usuário
+	$usuario_id = $_SESSION['usuario_id'];
+	$query = "SELECT * FROM usuarios WHERE usuario_id = :usuario_id";
+	$stmt = $pdo->prepare($query);
+	$stmt->execute([':usuario_id' => $usuario_id]);
+	$usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+	
+	// Verificar permissões para diretórios
+	if (strpos($caminho_atual, '/painel/px') === 0 && $usuario['px'] !== 'sim') {
+		window.location.href = '/Automacao.php';
+		exit;
+	}
+?>
