@@ -1,92 +1,101 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acesso Não Autorizado</title>
+    <title>Restricted Access</title>
     <style>
-        /* Reset Básico */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* General styles */
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(to right, #ff4b2b, #ff416c);
-            color: #fff;
+            background: #f3f4f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            text-align: center;
         }
 
         .container {
-            max-width: 500px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
         }
 
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-
-        p {
-            font-size: 1.2rem;
+            color: #333;
+            font-size: 24px;
             margin-bottom: 20px;
         }
 
-        .button-container {
-            margin-top: 20px;
+        .message {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #555;
         }
 
-        button {
-            background-color: #fff;
-            color: #ff416c;
-            border: none;
+        .btn {
+            background-color: #4CAF50;
+            color: white;
             padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #ff4b2b;
-            color: #fff;
-        }
-
-        a {
-            color: #fff;
             text-decoration: none;
-            font-weight: bold;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 16px;
+            transition: background-color 0.3s;
         }
 
-        a:hover {
-            text-decoration: underline;
+        .btn:hover {
+            background-color: #45a049;
         }
+
+        .alert {
+            background-color: #ffcc00;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert.error {
+            background-color: #e74c3c;
+        }
+
+        .alert.success {
+            background-color: #2ecc71;
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Acesso Não Autorizado</h1>
-        <p>Você não tem permissão para acessar esta página.</p>
-        <p>Você será redirecionado para a página de login em breve.</p>
-        <div class="button-container">
-            <button onclick="window.location.href='index.html';">Voltar à Página Inicial</button>
-        </div>
+        <h1>Restricted Access</h1>
+        <div class="alert error" id="error-message">You do not have permission to access this resource.</div>
+        <div class="alert success" id="success-message">Access granted!</div>
+        <div class="message">You are trying to access a protected resource. If you believe you should have access, please contact the administrator.</div>
+        <a href="/login.php" class="btn">Go to Login</a>
     </div>
 
     <script>
-        // Redireciona automaticamente para a página de login após 5 segundos
+        // Simulate error or success
+        function showMessage(type, message) {
+            let alert = document.getElementById(type);
+            alert.textContent = message;
+            alert.style.display = 'block';
+        }
+
+        // Example of redirect with error or success
         setTimeout(() => {
-            window.location.href = 'login.html';
-        }, 5000);
+            showMessage('error', 'You do not have permission to access this resource.');
+        }, 1000);
     </script>
 </body>
 </html>
